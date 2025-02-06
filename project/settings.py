@@ -45,7 +45,8 @@ INSTALLED_APPS = [
 ]
 
 LOCAL_APPS = [
-    'users'
+    'users',
+    'products'
 ]
 
 THIRD_PARTY_APPS = [

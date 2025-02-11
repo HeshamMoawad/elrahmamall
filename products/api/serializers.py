@@ -9,15 +9,21 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class BrandSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+
+    def get_image(self, obj: Brand):
+        if obj.image:
+            return obj.image.url
+        return None
+
     class Meta:
         model = Brand
         fields = ['id', 'name', 'description', 'image']
 
 
-
 class ProductSerializer(serializers.ModelSerializer):
     categories = CategorySerializer(many=True)
-    brand = BrandSerializer()
+    brand = BrandSerializer(read_only=True)
     details = serializers.SerializerMethodField()
 
     def get_details(self,obj:Product):
@@ -29,7 +35,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class ProductHomeSerializer(serializers.ModelSerializer):
-    brand = BrandSerializer()
+    brand = BrandSerializer(read_only=True)
     details = serializers.SerializerMethodField()
 
     def get_details(self,obj:Product):

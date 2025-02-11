@@ -25,6 +25,27 @@ class ProductSerializer(serializers.ModelSerializer):
     categories = CategorySerializer(many=True)
     brand = BrandSerializer(read_only=True)
     details = serializers.SerializerMethodField()
+    image_1 = serializers.SerializerMethodField()
+    image_2 = serializers.SerializerMethodField()
+    image_3 = serializers.SerializerMethodField()
+    image_4 = serializers.SerializerMethodField()
+
+    def get_image_1(self, obj: Product):
+        if obj.image_1:
+            return obj.image_1.url
+        return None
+    def get_image_2(self, obj: Product):
+        if obj.image_2:
+            return obj.image_2.url
+        return None
+    def get_image_3(self, obj: Product):
+        if obj.image_3:
+            return obj.image_3.url
+        return None
+    def get_image_4(self, obj: Product):
+        if obj.image_4:
+            return obj.image_4.url
+        return None
 
     def get_details(self,obj:Product):
         return obj.details.splitlines() if obj.details else None

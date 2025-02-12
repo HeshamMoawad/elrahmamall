@@ -4,7 +4,7 @@ from products.models import Category, Brand, Product
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['id', 'name', 'description' ]
+        fields = ['id', 'name', 'description' ,'is_sale']
 
 
 
@@ -78,5 +78,5 @@ class HomeSerializer(serializers.ModelSerializer):
         return ProductHomeSerializer(obj.product_set.filter(hide=False), many=True).data
     class Meta:
         model = Category
-        fields = ['id', 'name', 'description'  , 'products']
+        fields = ['id', 'name', 'description'  , 'products' , 'is_sale']
 

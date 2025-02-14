@@ -28,7 +28,7 @@ class Command(BaseCommand):
                     file.close()
             data_as_json['image_1'] = path
             return data_as_json
-        return list(map(parse_integer,DATA[:10]))
+        return list(map(parse_integer,DATA))
 
 
     def handle(self, *args, **options):

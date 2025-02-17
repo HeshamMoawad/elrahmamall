@@ -28,7 +28,7 @@ class ProductSerializer(serializers.ModelSerializer):
     image_1 = serializers.SerializerMethodField()
     image_2 = serializers.SerializerMethodField()
     image_3 = serializers.SerializerMethodField()
-    image_4 = serializers.SerializerMethodField()
+    # image_4 = serializers.SerializerMethodField()
 
     def get_image_1(self, obj: Product):
         if obj.image_1:
@@ -42,17 +42,13 @@ class ProductSerializer(serializers.ModelSerializer):
         if obj.image_3:
             return obj.image_3.url
         return None
-    def get_image_4(self, obj: Product):
-        if obj.image_4:
-            return obj.image_4.url
-        return None
 
     def get_details(self,obj:Product):
         return obj.details.splitlines() if obj.details else None
 
     class Meta:
         model = Product
-        fields = ['id', 'name', 'description', 'price', 'categories', 'brand', 'count', 'details', "image_1", "image_2", "image_3", "image_4"  ]
+        fields = ['id', 'name', 'description', 'price', 'categories', 'brand', 'count', 'details', "image_1", "image_2", "image_3" ]
 
 
 class ProductHomeSerializer(serializers.ModelSerializer):
@@ -67,7 +63,7 @@ class ProductHomeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['id', 'name', 'description', 'price', 'brand', 'count', 'details', "image_1", "image_2", "image_3", "image_4"  ]
+        fields = ['id', 'name', 'description', 'price', 'brand', 'count', 'details', "image_1", "image_2", "image_3" ]
 
 
 

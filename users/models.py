@@ -17,3 +17,6 @@ class ElRahmaUser(AbstractUser):
 
     def __str__(self):
         return f'{self.email}_{self.phone_number}'
+    class Meta:
+        verbose_name = "المستخدم"
+        verbose_name_plural  = "المستخدمين"

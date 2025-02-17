@@ -53,13 +53,13 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class ProductHomeSerializer(serializers.ModelSerializer):
     brand = BrandSerializer(read_only=True)
-    details = serializers.SerializerMethodField()
+    # details = serializers.SerializerMethodField()
 
-    def get_details(self,obj:Product):
-        details = obj.details
-        if details :
-            details = {key:value for key,value in map(lambda x : x.split(":") ,details.splitlines())}
-        return details
+    # def get_details(self,obj:Product):
+    #     details = obj.details
+    #     if details :
+    #         details = {key:value for key,value in map(lambda x : x.split(":") ,details.splitlines())}
+    #     return details
 
     class Meta:
         model = Product

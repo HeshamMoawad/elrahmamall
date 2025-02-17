@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import ElRahmaUser
+from django.contrib.admin import AdminSite
 
 class ElRahmaUserAdmin(UserAdmin):
     model = ElRahmaUser
@@ -20,5 +21,10 @@ class ElRahmaUserAdmin(UserAdmin):
     )
     search_fields = ('email', 'phone_number')
     ordering = ('email',)
+
+
+admin.site.site_title = "ElRahmaMall Admin"
+admin.site.site_header = "ElRahmaMall Admin"
+admin.site.index_title = "ElRahmaMall Site"
 
 admin.site.register(ElRahmaUser, ElRahmaUserAdmin)

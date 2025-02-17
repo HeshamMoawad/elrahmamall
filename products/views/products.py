@@ -7,7 +7,6 @@ from rest_framework import filters
 
 class ProductsList(ListAPIView):
     serializer_class = ProductSerializer
-    # filter_backends = [filters.SearchFilter]
     search_fields = ['categories__name','pk',"name"]
 
     def get_queryset(self):

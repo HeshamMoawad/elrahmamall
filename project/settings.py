@@ -158,6 +158,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'users.auth.HeaderAuthentication',
+        'users.auth.CookieAuthentication',
+        'users.auth.BodyAuthentication',
     ),
 }
 
@@ -171,12 +175,15 @@ SIMPLE_JWT = {
     'VERIFYING_KEY': None,
     'AUDIENCE': None,
     'ISSUER': None,
-    'AUTH_HEADER_TYPES': ('Bearer',),
     'USER_ID_FIELD': 'id',
     'USER_ID_CLAIM': 'user_id',
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
     'TOKEN_TYPE_CLAIM': 'token_type',
     'JTI_CLAIM': 'jti',
+    'AUTH_COOKIE': 'Authorization',
+    'AUTH_HEADER': 'Authorization',
+    'AUTH_BODY': 'Authorization',
+
 }
 
 AUTH_USER_MODEL = 'users.ElRahmaUser'

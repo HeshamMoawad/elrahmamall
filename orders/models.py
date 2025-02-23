@@ -95,7 +95,7 @@ class Links(models.Model):
 def reduce_items(sender, instance:Item, created:bool, **kwargs):
     if created :
         product = instance.product
-        product.count -= instance.quantity
+        product.count =int(product.count) -  int(instance.quantity)
         product.save()
 
 

@@ -57,7 +57,10 @@ def create_order(request:Request):
             form.save()
             order : Order = form.instance
             print(order.item_set)
-            items_factory(items,order)
+            try :
+                items_factory(items,order)
+            except ValueError as v:
+                return Response({"detail":str(v)}, status=status.HTTP_400_BAD_REQUEST)
             ser = OrderSerializer(order)
             return Response(ser.data, status=status.HTTP_201_CREATED)
     return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)

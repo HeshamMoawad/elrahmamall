@@ -7,7 +7,7 @@ from .stracture import SingletonMeta
 
 
 
-class PaymobIntentionClient(metaclass=SingletonMeta):
+class PaymobIntentionClient:
     BASE_URL = "https://accept.paymob.com"
     
     def __init__(self, secret_key, public_key, hmac_key=None):

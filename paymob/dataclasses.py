@@ -41,15 +41,23 @@ class Intention(BaseModel):
     redirection_url: str
     extras: Dict[str, Any] = Field(default_factory=dict)
 
-    # @model_validator(mode='after')
-    # def validate_amount(self) -> 'Intention':
-    #     total_amount = sum(item.amount for item in self.items)
-    #     if total_amount != self.amount:
-    #         raise ValueError(
-    #             f"Total items amount {total_amount} doesn't match "
-    #             f"specified amount {self.amount}"
-    #         )
-    #     return self
+
+    @model_validator(mode='after')
+    def validate_items(self) -> 'Intention':
+        for item in self.items :
+            item.amount  = item.amount * 100
+        return self
+    
+    @model_validator(mode='after')
+    def validate_amount(self) -> 'Intention':
+        self.amount = self.amount * 100
+        total_amount = sum(item.amount * item.quantity for item in self.items)
+        if total_amount != self.amount:
+            raise ValueError(
+                f"Total items amount {total_amount} doesn't match "
+                f"specified amount {self.amount}"
+            )
+        return self
 
 
 class PaymentKey(BaseModel):

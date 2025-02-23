@@ -33,7 +33,7 @@ def items_factory(items:List[dict],order:Order):
     products = Product.objects.filter(pk__in = [ i.get("product",0) for i in items])
     for item_dict in items:
         product = products.get(pk=item_dict['product'])
-        if product.count < item_dict['quantity'] :
+        if int(product.count) < int(item_dict['quantity']) :
             raise ValueError("الرجاءالتاكد من السلة مجددا لانه يوجد منتج غير متوفر بشكل كافى")
         item_dict['product'] = product
         item_dict['order'] = order

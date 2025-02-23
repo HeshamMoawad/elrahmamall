@@ -1,7 +1,11 @@
 from django.contrib import admin
-from .models import Order, Item
 from .models import (
-    Address
+    Address ,
+    Order ,
+    Item ,
+    PaymentAccountModel ,
+    PaymentMethodModel ,
+    Links
 )
 # Register your models here.
 class AddressAdmin(admin.ModelAdmin):
@@ -64,3 +68,6 @@ class ItemAdmin(admin.ModelAdmin):
 
 admin.site.register(Item, ItemAdmin)
 admin.site.register(Order, OrderAdmin)
+admin.site.register(PaymentAccountModel)
+admin.site.register(PaymentMethodModel)
+admin.site.register(Links)

@@ -37,6 +37,7 @@ def items_factory(items:List[dict],order:Order):
             raise ValueError("الرجاءالتاكد من السلة مجددا لانه يوجد منتج غير متوفر بشكل كافى")
         item_dict['product'] = product
         item_dict['order'] = order
+        item_dict['amount'] = float(product.price) * int(item_dict['quantity'])
         item = Item(**item_dict)
         item.save()
         result.append(item)

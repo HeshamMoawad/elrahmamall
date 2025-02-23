@@ -80,7 +80,7 @@ class Item(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE,null=True, verbose_name="الاوردر")
     product = models.ForeignKey(Product, on_delete=models.SET_NULL,null=True, verbose_name="المنتج")
     quantity = models.IntegerField(verbose_name="عدد المنتج")
-    amount = models.DecimalField(max_digits=25, decimal_places=2, verbose_name="السعر")
+    amount = models.DecimalField(max_digits=25, decimal_places=2, verbose_name="السعر" , default=0)
     def __str__(self):
         return f"{self.product.name} - {self.quantity} - {self.product.price * self.quantity}-{self.order.order_uuid if self.order else ''}"
 

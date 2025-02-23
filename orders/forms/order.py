@@ -2,13 +2,6 @@ from django import forms
 from orders.models import Order, Item
 
 class OrderForm(forms.ModelForm):
-    # For the ManyToManyField, you might want to use a custom widget such as CheckboxSelectMultiple
-    # items = forms.ModelMultipleChoiceField(
-    #     queryset=Item.objects.all(),
-    #     widget=forms.CheckboxSelectMultiple,
-    #     required=False
-    # )
-
     class Meta:
         model = Order
         fields = [
@@ -19,11 +12,12 @@ class OrderForm(forms.ModelForm):
             'street',
             'building',
             'floor',
+            'note',
             'raw_address',
             'is_cash_payment',
             'is_online_payment',
-            'items',
-            'total_price'
+            'total_price' ,
+            'delivery_price'
         ]
     def clean(self):
         cleaned_data = super().clean()
@@ -39,17 +33,25 @@ class OrderForm(forms.ModelForm):
     def save(self, commit=True):
         instance = super().save(commit=False)
         # Customize raw_address by combining several address fields
-        address_components = [
-            instance.apartment,
-            instance.building,
-            instance.street,
-            instance.district,
-            instance.country.name if instance.country else ""
-        ]
-        instance.raw_address = ", ".join(filter(None, address_components))
+        if not instance.raw_address :
+            address_components = [
+                instance.apartment,
+                instance.building,
+                instance.street,
+                instance.district,
+                instance.country.name if instance.country else ""
+            ]
+            instance.raw_address = ", ".join(filter(None, address_components))
         if commit:
             instance.save()
             self.save_m2m()
         return instance
     
-    
+class ItemsForm(forms.ModelForm):
+    class Meta:
+        model = Item
+        fields = [
+            "order",
+            "product",
+            "quantity"
+        ]

@@ -1,3 +1,4 @@
+from datetime import datetime
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -22,6 +23,7 @@ class LoginView(APIView):
                 **UserSerializer(user).data,
                 'refresh': str(refresh),
                 'access': str(refresh.access_token),
+                "expire" :datetime.utcfromtimestamp(refresh.access_token['exp']).isoformat()
             })
             response.set_cookie(settings.SIMPLE_JWT["AUTH_COOKIE"],str(refresh.access_token))
             return response

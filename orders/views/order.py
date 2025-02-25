@@ -55,7 +55,7 @@ def create_order(request:Request):
             items = items_factory(items)
             total_items = sum(map(lambda x : float(x.amount),items))
             if total_items > 100000 and data['delivery_price'] != 0:
-                raise ValueError("التوصيل يكون مجانيا اذا كانت ثيمة الطلب اكبر من 100الف جنيه")
+                raise ValueError("التوصيل يكون مجانيا اذا كانت قيمة الطلب اكبر من 100الف جنيه")
             if total_items > 30000 and data['is_cash_payment'] :
                 raise ValueError("لا يمكن انشاء طلب يكون فيه الدفع عند التوصيل و تكون قيمته اعلى من 30الف جنيه")
         except ValueError as v:

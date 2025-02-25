@@ -63,6 +63,15 @@ def get_payment_link(request:Request):
     if order.is_online_payment : 
         price = int(order.total_price)
         items = [ItemAdaptor(item) for item in items]
+        items = items + [
+                IntentionItem(
+                    name="خدمة التوصيل",
+                    amount=order.delivery_price ,
+                    description="دفع خدمة التوصيل ",
+                    quantity=1
+                        )
+
+        ]
     elif order.is_cash_payment :
         price = int(order.delivery_price)
         items = [

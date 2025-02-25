@@ -21,7 +21,7 @@ class LoginView(APIView):
             refresh = RefreshToken.for_user(user)
             response = Response({
                 **UserSerializer(user).data,
-                'refresh': str(refresh),
+                # 'refresh': str(refresh),
                 'access': str(refresh.access_token),
                 "expire" :datetime.utcfromtimestamp(refresh.access_token['exp']).isoformat()
             })

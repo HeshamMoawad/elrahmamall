@@ -28,7 +28,7 @@ class OrderList(ListAPIView):
 
 
 
-def items_factory(items:List[dict],order:Order):
+def items_factory(items:List[dict]):
     result = []
     products = Product.objects.filter(pk__in = [ i.get("product",0) for i in items])
     for item_dict in items:
@@ -36,10 +36,8 @@ def items_factory(items:List[dict],order:Order):
         if int(product.count) < int(item_dict['quantity']) :
             raise ValueError("الرجاءالتاكد من السلة مجددا لانه يوجد منتج غير متوفر بشكل كافى")
         item_dict['product'] = product
-        item_dict['order'] = order
         item_dict['amount'] = float(product.price) * int(item_dict['quantity'])
         item = Item(**item_dict)
-        item.save()
         result.append(item)
     return result
 
@@ -53,16 +51,27 @@ def create_order(request:Request):
     items = data.pop("items",[])
     if items :
         form = OrderForm(data)
+        try : 
+            items = items_factory(items)
+            total_items = sum(map(lambda x : float(x.amount),items))
+            if total_items > 100000 and data['delivery_price'] != 0:
+                raise ValueError("التوصيل يكون مجانيا اذا كانت ثيمة الطلب اكبر من 100الف جنيه")
+            if total_items > 30000 and data['is_cash_payment'] :
+                raise ValueError("لا يمكن انشاء طلب يكون فيه الدفع عند التوصيل و تكون قيمته اعلى من 30الف جنيه")
+        except ValueError as v:
+            return Response({"detail":str(v)}, status=status.HTTP_400_BAD_REQUEST)
+
         if form.is_valid():
             form.save()
             order : Order = form.instance
-            print(order.item_set)
-            try :
-                items_factory(items,order)
-            except ValueError as v:
-                return Response({"detail":str(v)}, status=status.HTTP_400_BAD_REQUEST)
+            for itm in items :
+                itm.order = order
+                itm.save()
             ser = OrderSerializer(order)
             return Response(ser.data, status=status.HTTP_201_CREATED)
-    return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
+        else :
+            return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
+    return Response({"detail":"الطلب يجب ان يحتوى على منتجات"}, status=status.HTTP_400_BAD_REQUEST)
+
 
 

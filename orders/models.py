@@ -8,6 +8,7 @@ class PaymentAccountModel(models.Model):
     take = models.BooleanField(default=False)
     secret_key = models.CharField(max_length=255)
     public_key = models.CharField(max_length=255)
+    hmac_key = models.CharField(max_length=255,blank=True)
     notification_url = models.CharField(blank=True,max_length=255)
     redirection_url = models.CharField(blank=True,max_length=255)
 

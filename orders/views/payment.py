@@ -122,7 +122,6 @@ def get_payment_link(request:Request):
         order = order,
         special_reference = str(special_reference),
         price=price , 
-
     )
     
     if isinstance(intention,PaymentIntention):
@@ -130,7 +129,7 @@ def get_payment_link(request:Request):
         url = payment.get_payment_url(intention.client_secret)
         new_link.payment_link = url
         new_link.paymob_order_id = intention.intention_order_id
-        new_link.price = intention.intention_detail.amount
+        new_link.price = float(intention.intention_detail.amount) /100
         new_link.save()
         return Response({"url":url})
     else :
@@ -186,7 +185,17 @@ def payment_status(request:Request):
         print(f"\n{gen_hmac}\n{recive_hmac}\n{data.get("order",{}).get("id",{})}")
         if gen_hmac == recive_hmac:
             link = get_object_or_404(Links, paymob_order_id=data.get("order",{}).get("id",{}))
-            link.is_paid = data.get("success",False)
+            success = data.get("success",False)
+            link.is_paid = success
+            order = link.order
+            if order.is_cash_payment :
+                if order.delivery_price == link.price :
+                    order.is_delivery_paid = success
+            elif order.is_online_payment :
+                if order.total_price == link.price :
+                    order.is_paid = success
+
+            order.save()
             link.save()
             print("success")
             return Response({"detail":"success"})

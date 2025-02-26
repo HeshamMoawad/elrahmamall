@@ -30,7 +30,7 @@ admin.site.register(Address, AddressAdmin)
 
 # OrderAdmin with Arabic display methods
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('ar_order_uuid', 'ar_user', 'ar_total_price', 'ar_order_date')
+    list_display = ('ar_order_uuid', 'ar_user', 'ar_total_price','ar_is_cash_payment','ar_is_delivery_paid', 'ar_is_online_payment','ar_is_paid', 'ar_order_date')
     search_fields = ('order_uuid', 'user__username')
 
     @admin.display(description="رقم الطلب", ordering="order_uuid")
@@ -49,7 +49,24 @@ class OrderAdmin(admin.ModelAdmin):
     def ar_order_date(self, obj: Order):
         return obj.order_date
 
+    @admin.display(description="الاوردر كاش", ordering="is_cash_payment" , boolean=True)
+    def ar_is_cash_payment(self, obj: Order):
+        return obj.is_cash_payment
+    
+    @admin.display(description="تم دفع التوصيل", ordering="is_delivery_paid" , boolean=True)
+    def ar_is_delivery_paid(self, obj: Order):
+        return obj.is_delivery_paid
+    
 
+    @admin.display(description="الدفع اونلاين", ordering="is_online_payment" , boolean=True)
+    def ar_is_online_payment(self, obj: Order):
+        return obj.is_online_payment
+    
+
+    @admin.display(description="تم دفع المبلغ كامل اونلاين", ordering="is_paid" , boolean=True)
+    def ar_is_paid(self, obj: Order):
+        return obj.is_paid
+    
 
 # ItemAdmin with Arabic display methods
 class ItemAdmin(admin.ModelAdmin):

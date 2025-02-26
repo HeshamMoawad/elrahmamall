@@ -15,6 +15,11 @@ from paymob.client import PaymobIntentionClient
 from paymob.client import Item as IntentionItem 
 from django.shortcuts import get_object_or_404
 from orders.api.serializers import PaymentMethodSerializer
+import logging
+
+# Get logger instance
+logger = logging.getLogger(__name__)
+
 
 
 class PaymentMethodsList(ListAPIView):
@@ -134,6 +139,7 @@ def get_payment_link(request:Request):
 
 @api_view(['GET',"POST"])
 def payment_status(request:Request):
+    logger.info(request.data)
     if request.method == "POST" :
         data = request.data
     elif request.method == "GET" :

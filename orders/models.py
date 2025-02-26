@@ -88,6 +88,8 @@ class Links(models.Model):
     order = models.ForeignKey(Order, on_delete=models.SET_NULL,null=True)
     payment_link = models.URLField(blank=True)
     client_secret = models.CharField(max_length=255)
+    paymob_order_id = models.CharField(max_length=255,blank=True)
+    is_paid = models.BooleanField(default=False)
     special_reference = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     price = models.DecimalField(max_digits=25, decimal_places=2, verbose_name="السعر")

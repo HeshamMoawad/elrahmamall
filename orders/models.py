@@ -19,7 +19,7 @@ class PaymentMethodModel(models.Model):
     type = models.CharField(max_length=255)
     payment_method_id = models.IntegerField()
 
-    def __str__(self):
+    def __str__(self):        
         return f"{self.type}-{self.payment_method_id}"
 
 
@@ -87,6 +87,7 @@ class Item(models.Model):
 
 class Links(models.Model):
     order = models.ForeignKey(Order, on_delete=models.SET_NULL,null=True)
+    payment_method = models.ForeignKey(PaymentMethodModel, on_delete=models.SET_NULL,null=True)
     payment_link = models.URLField(blank=True)
     client_secret = models.CharField(max_length=255)
     paymob_order_id = models.CharField(max_length=255,blank=True)

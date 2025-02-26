@@ -132,10 +132,14 @@ def get_payment_link(request:Request):
 
 
 
-@api_view(['GET'])
+@api_view(['GET',"POST"])
 def payment_status(request:Request):
-    link = get_object_or_404(Links, paymob_order_id=request.query_params.get("obj",{}).get("order",{}).get("id",{}))
-    link.is_paid = request.query_params.get("obj",{}).get("success",False)
+    if request.method == "POST" :
+        data = request.data
+    elif request.method == "GET" :
+        data = request.query_params
+    link = get_object_or_404(Links, paymob_order_id=data.get("obj",{}).get("order",{}).get("id",{}))
+    link.is_paid = data.get("obj",{}).get("success",False)
     link.save()
     return Response({"detail":"success"})
 

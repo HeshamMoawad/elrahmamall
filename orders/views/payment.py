@@ -182,7 +182,7 @@ def payment_status(request:Request):
     # print(f"\n{recive_hmac}\n{data}\n{account_hmac}")
     if account_hmac and recive_hmac:
         gen_hmac = generate_hmac(data,account_hmac.hmac_key)
-        print(f"\n{gen_hmac}\n{recive_hmac}\n{data.get("order",{}).get("id",{})}")
+        print(f"\n{gen_hmac}\n{recive_hmac}\n{data.get('order',{}).get('id',{})}")
         if gen_hmac == recive_hmac:
             link = get_object_or_404(Links, paymob_order_id=data.get("order",{}).get("id",{}))
             success = data.get("success",False)

@@ -122,7 +122,7 @@ def get_payment_link(request:Request):
         order = order,
         special_reference = str(special_reference),
         price=price , 
-        payemnt_method=method,
+        payment_method=method,
     )
     
     if isinstance(intention,PaymentIntention):
